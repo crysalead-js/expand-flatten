@@ -5,23 +5,23 @@
  * @return Object        The expanded object.
  */
 function expand(object) {
-  var path, key, parts, pointer, expanded = {};
-  for (path in object) {
-    value = object[path];
-    pointer = expanded;
+  var expanded = {};
+  for (var path in object) {
+    var value = object[path];
+    var pointer = expanded;
 
     if (path.indexOf('[') >= 0) {
       path = path.replace(/\[/g, '[.').replace(/]/g, '');
     }
-    parts = path.split('.');
+    var parts = path.split('.');
 
     while (parts.length - 1) {
-      key = parts.shift();
+      var key = parts.shift();
       if (key.slice(-1) === '[') {
         key = key.slice(0, - 1);
-        pointer[key] = pointer[key] || [];
+        pointer[key] = Array.isArray(pointer[key]) ? pointer[key] : [];
       } else {
-        pointer[key] = pointer[key] || {};
+        pointer[key] = (pointer[key] !== null && typeof pointer[key] === 'object' && pointer[key].constructor === Object) ? pointer[key] : {};
       }
       pointer = pointer[key];
     }

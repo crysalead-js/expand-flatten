@@ -32,4 +32,30 @@ describe(".expand()", function() {
 
   });
 
+  it("supports overriding", function() {
+
+    var actual = expand({
+      'preferences': true,
+      'preferences.blacklist': true,
+      'preferences.blacklist.projects': true,
+      'preferences.mail': true,
+      'preferences.mail.enabled': true,
+      'preferences.mail.frequency': true
+    });
+
+    var expected = {
+      preferences: {
+        blacklist: {
+          projects: true
+        },
+        mail: {
+          enabled: true,
+          frequency: true
+        }
+      }
+    }
+    expect(expected).toEqual(actual);
+
+  });
+
 });
