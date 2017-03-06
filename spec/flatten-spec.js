@@ -32,4 +32,15 @@ describe(".flatten()", function() {
 
   });
 
+  it("supports the prefix option", function() {
+
+    var actual = flatten({ some: { children: { very: { children: { deep: { children: { prop: true } } } } } } }, {
+      affix: 'children'
+    });
+    var expected = { 'some.very.deep.prop': true };
+
+    expect(expected).toEqual(actual);
+
+  });
+
 });

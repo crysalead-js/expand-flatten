@@ -58,4 +58,14 @@ describe(".expand()", function() {
 
   });
 
+  it("supports the expander option", function() {
+
+    var actual = expand({ 'some.very.deep.prop': true }, { affix: 'children' });
+
+    var expected = { some: { children: { very: { children: { deep: { children: { prop: true } } } } } } };
+
+    expect(expected).toEqual(actual);
+
+  });
+
 });

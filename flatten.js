@@ -14,9 +14,12 @@ function isNotObject(value) {
  * @param  Function check  The checking handler (default: isNotObject).
  * @return Object          The flattened object.
  */
-function flatten(object, check) {
+function flatten(object, options) {
   var i, j, value, result, flattened = {};
-  check = check || isNotObject;
+  options = options || {};
+  var check = options.check || isNotObject;
+  var separator = options.separator || '.';
+  var affix = options.affix ? separator + options.affix + separator : separator;
 
   for (i in object) {
     value = object[i]
@@ -28,11 +31,11 @@ function flatten(object, check) {
 
     if (Array.isArray(value)) {
       for (j in result) {
-        flattened[i + '[' + j + ']'] = result[j];
+        flattened[(i + '[' + j + ']').split(affix).join(separator)] = result[j];
       }
     } else {
       for (j in result) {
-        flattened[i + '.' + j] = result[j];
+        flattened[(i + separator + j).split(affix).join(separator)] = result[j];
       }
     }
   }

@@ -1,11 +1,16 @@
 /**
  * Expands a "hash" object an object.
  *
- * @param  Object object The object to expand.
- * @return Object        The expanded object.
+ * @param  Object object   The object to expand.
+ * @param  Object options  The options.
+ * @return Object          The expanded object.
  */
-function expand(object) {
+function expand(object, options) {
   var expanded = {};
+  var options = options || {};
+  var separator = options.separator || '.';
+  var affix = options.affix ? separator + options.affix + separator : separator;
+
   for (var path in object) {
     var value = object[path];
     var pointer = expanded;
@@ -13,7 +18,7 @@ function expand(object) {
     if (path.indexOf('[') >= 0) {
       path = path.replace(/\[/g, '[.').replace(/]/g, '');
     }
-    var parts = path.split('.');
+    var parts = path.split(separator).join(affix).split('.');
 
     while (parts.length - 1) {
       var key = parts.shift();
